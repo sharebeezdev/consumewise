@@ -29,7 +29,10 @@ class _EnvironmentInfoScreenState extends State<EnvironmentInfoScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-          backgroundColor: Colors.blue,
+        backgroundColor: Colors.blue,
+        iconTheme: IconThemeData(
+          color: Colors.white, // Set the back button color to white
+        ),
           title: Text(
             'Environmental Preferences',
             style: TextStyle(color: Colors.white),

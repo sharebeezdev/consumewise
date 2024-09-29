@@ -42,6 +42,9 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
           backgroundColor: Colors.blue,
+          iconTheme: IconThemeData(
+            color: Colors.white, // Set the back button color to white
+          ),
           title: Text(
             'Product and Lifestyle Preferences',
             style: TextStyle(color: Colors.white),

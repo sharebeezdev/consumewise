@@ -33,6 +33,9 @@ class _HealthInfoScreenState extends State<HealthInfoScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
           backgroundColor: Colors.blue,
+          iconTheme: IconThemeData(
+            color: Colors.white, // Set the back button color to white
+          ),
           title: Text(
             'Health Information',
             style: TextStyle(color: Colors.white),

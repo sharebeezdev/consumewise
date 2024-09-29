@@ -1,10 +1,7 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+
 import 'package:camera/camera.dart';
-import 'dart:io'; // For File operations
-import 'dart:typed_data'; // For Uint8List and ByteData
-import 'package:flutter/services.dart' show rootBundle; // To load assets
-import 'package:path_provider/path_provider.dart'; // To get access to temp directory
+import 'package:flutter/material.dart';
 
 import 'widgets/loading_screen.dart'; // For camera integration
 
@@ -118,8 +115,8 @@ class _ScanScreenState extends State<ScanScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-          title: Text('Scan Product',
-              style: TextStyle(color: Colors.white))
+        title: Text('Scan Product', style: TextStyle(color: Colors.white)),
+        centerTitle: true,
       ),
       body: Stack(
         children: [
@@ -129,12 +126,14 @@ class _ScanScreenState extends State<ScanScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        heroTag: "scanButton", // Assign a unique heroTag
+        heroTag: "scanButton",
+        // Assign a unique heroTag
         onPressed: _captureAndAnalyzeImage,
         icon: Icon(Icons.camera_alt, color: Colors.white),
         label: Text(
           'Scan & Analyze',
-          style: TextStyle(color: Colors.white), // Setting the text color to white
+          style:
+              TextStyle(color: Colors.white), // Setting the text color to white
         ),
         backgroundColor: Colors.blue,
       ),
@@ -142,8 +141,6 @@ class _ScanScreenState extends State<ScanScreen> {
     );
   }
 }
-
-
 
 // class ScanScreen extends StatefulWidget {
 //   @override

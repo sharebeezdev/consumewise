@@ -27,6 +27,9 @@ class _PrivacyInfoScreenState extends State<PrivacyInfoScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
           backgroundColor: Colors.blue,
+          iconTheme: IconThemeData(
+            color: Colors.white, // Set the back button color to white
+          ),
           title: Text(
             'Privacy and Data Sharing Preferences',
             style: TextStyle(color: Colors.white),

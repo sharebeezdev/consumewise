@@ -14,6 +14,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
           backgroundColor: Colors.blue,
+          iconTheme: IconThemeData(
+            color: Colors.white, // Set the back button color to white
+          ),
           title: Text(
             'Provide Feedback',
             style: TextStyle(color: Colors.white),

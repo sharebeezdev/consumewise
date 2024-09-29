@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../datamodel/utils/database_helper.dart';
 import 'widgets/profile_widgets/basic_info_screen.dart';
 
@@ -40,13 +41,18 @@ class _ProfileSetupFlowState extends State<ProfileSetupFlow> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: Text(
-        'Profile Setup',
-        style: TextStyle(color: Colors.white), // Setting the text color to white
-      ),
+          'Profile Setup',
+          style:
+              TextStyle(color: Colors.white), // Setting the text color to white
+        ),
+        centerTitle: true,
         actions: [
           if (_profileData.isNotEmpty)
             IconButton(
-              icon: Icon(Icons.edit, color: Colors.white,),
+              icon: Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
               onPressed: () {
                 // Navigate to edit screen
                 Navigator.push(

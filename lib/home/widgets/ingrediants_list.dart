@@ -53,6 +53,9 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
           backgroundColor: Colors.blue,
+          iconTheme: IconThemeData(
+            color: Colors.white, // Set the back button color to white
+          ),
           title: Text(
             'Product Analysis',
             style: TextStyle(color: Colors.white),
