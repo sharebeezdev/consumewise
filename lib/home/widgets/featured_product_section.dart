@@ -5,185 +5,202 @@ import '../../datamodel/utils/database_helper.dart';
 import 'product_details_screen.dart';
 
 class FeaturedProductSection extends StatefulWidget {
+  const FeaturedProductSection({Key? key}) : super(key: key);
+
   @override
-  _FeaturedProductSectionState createState() => _FeaturedProductSectionState();
+  FeaturedProductSectionState createState() => FeaturedProductSectionState();
 }
 
-class _FeaturedProductSectionState extends State<FeaturedProductSection> {
-  List<Map<String, dynamic>> _topProducts = [];
-  bool _isLoading = true;
+class FeaturedProductSectionState extends State<FeaturedProductSection> {
+  // Function to fetch top products from database
+  Future<List<Map<String, dynamic>>> fetchTopProducts() async {
+    print('Fetching product again');
+    final topProducts = await DatabaseHelper.fetchTopScannedProducts(3);
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchTopProducts();
+    // Debugging: Print the fetched products from the database
+    print("Fetched Products: ${topProducts.length}");
+    for (var product in topProducts) {
+      print(product); // Check individual product data
+    }
+
+    return List<Map<String, dynamic>>.from(topProducts); // Ensure correct type
   }
 
-  Future<void> _fetchTopProducts() async {
-    final topProducts = await DatabaseHelper.fetchTopScannedProducts(3);
-    setState(() {
-      _topProducts =
-          List<Map<String, dynamic>>.from(topProducts); // Ensure correct type
-      _isLoading = false; // Stop loading once data is fetched
-    });
+  // Helper function to sanitize and extract JSON part from the response
+  String _sanitizeApiResponse(String response) {
+    int jsonStartIndex = response.indexOf('{');
+    int jsonEndIndex = response.lastIndexOf('}');
+
+    if (jsonStartIndex != -1 && jsonEndIndex != -1) {
+      return response.substring(
+          jsonStartIndex, jsonEndIndex + 1); // Extract the JSON content
+    } else {
+      return '{}'; // Return an empty JSON object if the format is unexpected
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return SizedBox.shrink(); // Hide section when loading
-    }
+    print('Build start');
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future:
+          fetchTopProducts(), // Call fetchTopProducts every time build is executed
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+              child: CircularProgressIndicator()); // Show loading indicator
+        }
 
-    // Hide section if no products found
-    if (_topProducts.isEmpty) {
-      return SizedBox.shrink(); // Return nothing if no products found
-    }
+        if (snapshot.hasError) {
+          return Center(child: Text('Error loading products'));
+        }
 
-    return Container(
-      height: 250,
-      child: PageView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: _topProducts.length,
-        itemBuilder: (context, index) {
-          final product = _topProducts[index];
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return SizedBox.shrink(); // Return nothing if no products are found
+        }
 
-          // Debug: Print the entire product to understand its structure
-          debugPrint('Product $index: ${product.toString()}', wrapWidth: 1024);
+        final _topProducts = snapshot.data!;
 
-          // Try parsing the apiResponse
-          Map<String, dynamic> productDetails;
-          try {
-            // Handle if apiResponse is already a Map or is a String
-            if (product['apiResponse'] is String) {
-              debugPrint('apiResponse is a String: ${product['apiResponse']}',
-                  wrapWidth: 1024);
-              productDetails =
-                  Map<String, dynamic>.from(jsonDecode(product['apiResponse']));
-              debugPrint('Decoded apiResponse: $productDetails');
-            } else if (product['apiResponse'] is Map) {
-              debugPrint('apiResponse is a Map');
-              productDetails =
-                  Map<String, dynamic>.from(product['apiResponse']);
-            } else {
-              debugPrint(
-                  'Unexpected apiResponse format: ${product['apiResponse']}');
-              productDetails =
-                  {}; // Default to empty map if format is unexpected
-            }
-          } catch (e) {
-            // Print detailed error message and apiResponse content
-            debugPrint('Error decoding apiResponse: $e');
-            debugPrint('apiResponse content: ${product['apiResponse']}',
-                wrapWidth: 1024);
-            productDetails = {}; // Default to empty map on error
-          }
+        return Container(
+          height: 250,
+          child: PageView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: _topProducts.length,
+            itemBuilder: (context, index) {
+              final product = _topProducts[index];
 
-          final imagePath = product['imagePath'];
-          final productTitle = productDetails['productTitle'] ?? 'No Title';
-          final category = productDetails['category'] ?? 'No Category';
-          final manufacturer =
-              productDetails['manufacturer'] ?? 'No Manufacturer';
+              // Try parsing the apiResponse
+              Map<String, dynamic> productDetails;
+              try {
+                if (product['apiResponse'] is String) {
+                  String sanitizedResponse =
+                      _sanitizeApiResponse(product['apiResponse']);
+                  productDetails =
+                      Map<String, dynamic>.from(jsonDecode(sanitizedResponse));
+                } else if (product['apiResponse'] is Map) {
+                  productDetails =
+                      Map<String, dynamic>.from(product['apiResponse']);
+                } else {
+                  productDetails = {};
+                }
+              } catch (e) {
+                debugPrint('Error decoding apiResponse: $e');
+                productDetails = {};
+              }
 
-          // Extracting overallAssessment and keyInsights from summary
-          final summary = productDetails['summary'];
-          final overallAssessment =
-              summary != null && summary is Map<String, dynamic>
-                  ? summary['overallAssessment'] ?? 'No Assessment'
-                  : 'No Assessment';
-          final keyInsights = summary != null && summary is Map<String, dynamic>
-              ? summary['keyInsights'] as List<dynamic>? ?? []
-              : [];
+              final imagePath = product['imagePath'];
+              final productTitle = productDetails['productTitle'] ?? 'No Title';
+              final category = productDetails['category'] ?? 'No Category';
+              final manufacturer =
+                  productDetails['manufacturer'] ?? 'No Manufacturer';
 
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProductDetailsPage(
-                    productDetails: productDetails,
-                    imagePath: imagePath,
+              // Extracting overallAssessment and keyInsights from summary
+              final summary = productDetails['summary'];
+              final overallAssessment =
+                  summary != null && summary is Map<String, dynamic>
+                      ? summary['overallAssessment'] ?? 'No Assessment'
+                      : 'No Assessment';
+              final keyInsights =
+                  summary != null && summary is Map<String, dynamic>
+                      ? summary['keyInsights'] as List<dynamic>? ?? []
+                      : [];
+
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductDetailsPage(
+                        productDetails: productDetails,
+                        imagePath: imagePath,
+                      ),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Card(
+                    elevation: 1,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  productTitle,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  '$category | $manufacturer',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  overallAssessment,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                SizedBox(height: 10),
+                                Expanded(
+                                  child: ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: keyInsights.length,
+                                    itemBuilder: (context, index) {
+                                      return Text(
+                                        '- ${keyInsights[index]}',
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(fontSize: 12),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          imagePath != null
+                              ? Image.file(
+                                  File(imagePath),
+                                  width: 120,
+                                  fit: BoxFit.cover,
+                                )
+                              : Container(
+                                  width: 120,
+                                  height: 120,
+                                  color: Colors.grey,
+                                  child: Center(child: Text('No Image')),
+                                ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               );
             },
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                surfaceTintColor: Colors.white, // Material 3 Card background
-                elevation: 1, // Material You Card elevation
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              productTitle,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              '$category | $manufacturer',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              overallAssessment,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            SizedBox(height: 10),
-                            // Show key insights, wrapped inside the available height of the card
-                            Expanded(
-                              child: ListView.builder(
-                                physics:
-                                    NeverScrollableScrollPhysics(), // Disable scrolling inside the card
-                                shrinkWrap: true,
-                                itemCount: keyInsights.length,
-                                itemBuilder: (context, index) {
-                                  return Text(
-                                    '- ${keyInsights[index]}',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(fontSize: 12),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 16),
-                      Image.file(
-                        File(imagePath), // Display the product image
-                        width: 120,
-                        fit: BoxFit.cover,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

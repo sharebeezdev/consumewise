@@ -28,28 +28,28 @@ class FoodSearchSection extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 20),
-          Center(
-            child: Column(
-              children: [
-                Text(
-                  'Scan, Learn, Choose Healthier',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Scan the product to learn about your food!',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey,
-                      ),
-                ),
-                SizedBox(height: 20),
-                Icon(Icons.qr_code_2, size: 64, color: Colors.blueAccent),
-              ],
-            ),
-          ),
+          //   SizedBox(height: 20),
+          //   Center(
+          //     child: Column(
+          //       children: [
+          //         Text(
+          //           'Scan, Learn, Choose Healthier',
+          //           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+          //                 fontWeight: FontWeight.bold,
+          //               ),
+          //         ),
+          //         SizedBox(height: 8),
+          //         Text(
+          //           'Scan the product to learn about your food!',
+          //           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          //                 color: Colors.grey,
+          //               ),
+          //         ),
+          //         SizedBox(height: 20),
+          //         Icon(Icons.qr_code_2, size: 64, color: Colors.blueAccent),
+          //       ],
+          //     ),
+          //   ),
         ],
       ),
     );

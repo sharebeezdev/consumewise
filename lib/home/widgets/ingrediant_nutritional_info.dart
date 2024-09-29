@@ -18,7 +18,7 @@ class IngredientNutritionalInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (nutritionalData.isEmpty) {
-      return SizedBox.shrink();
+      return SizedBox.shrink(); // Hide if no data available
     }
 
     final entries =
@@ -29,7 +29,7 @@ class IngredientNutritionalInfo extends StatelessWidget {
       runSpacing: 10.0,
       children: List.generate(entries.length, (index) {
         final entry = entries[index]; // Get the MapEntry at the index
-        if (entry.value != null) {
+        if (entry.value != null && entry.value is String) {
           final parts = entry.value.split(' '); // Split value and unit
 
           // Check if parts[0] exists and is not empty or null
@@ -42,12 +42,9 @@ class IngredientNutritionalInfo extends StatelessWidget {
                   : '', // Extract unit (e.g., 'g'), handle missing unit
               color: cardColors[index % cardColors.length], // Cycle colors
             );
-          } else {
-            return SizedBox.shrink(); // Skip card if value is invalid
           }
-        } else {
-          return SizedBox.shrink();
         }
+        return SizedBox.shrink(); // Skip if value is invalid or empty
       }),
     );
   }

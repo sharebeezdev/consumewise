@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../home_screen.dart';
 import '../profile_screen.dart';
 import '../scan_screen.dart';
@@ -11,12 +10,7 @@ class BottomNav extends StatefulWidget {
 
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
-
-  final List<Widget> _screens = <Widget>[
-    HomeScreen(),
-    ScanScreen(),
-    ProfileSetupFlow(),
-  ];
+  bool _shouldRefreshProducts = false; // Track whether to refresh products
 
   void _onItemTapped(int index) {
     setState(() {
@@ -24,44 +18,91 @@ class _BottomNavState extends State<BottomNav> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(null), // Placeholder for the middle scan button
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding:
-            const EdgeInsets.only(top: 8.0), // Add padding to prevent overflow
-        child: FloatingActionButton(
-          shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(16)), // Adds Material You flair
-          child: Icon(Icons.qr_code_scanner, size: 36), // Larger scan button
-          onPressed: () {
+  // This will trigger when we need to refresh HomeScreen products
+  void _refreshHomeProducts() {
+    if (_shouldRefreshProducts) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          _shouldRefreshProducts = false; // Reset the flag after refresh
+        });
+      });
+    }
+  }
+
+  Future<void> _navigateToScanScreen() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ScanScreen(
+          onBackToHome: () {
+            // When coming back from ScanScreen, set the index to HomeScreen
             setState(() {
-              _selectedIndex = 1; // Set to Scan Screen
+              _shouldRefreshProducts = true; // Trigger refresh on return
+              _selectedIndex = 0; // Switch back to HomeScreen
             });
           },
         ),
       ),
+    );
+
+    if (result == true) {
+      // If scan operation succeeded, trigger refresh of HomeScreen
+      setState(() {
+        _shouldRefreshProducts = true;
+        _selectedIndex = 0; // Ensure HomeScreen is active
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Widget> _screens = <Widget>[
+      HomeScreen(onRefreshProducts: _refreshHomeProducts),
+      ScanScreen(onBackToHome: () {
+        setState(() {
+          _shouldRefreshProducts = true; // Set flag to refresh on return
+          _selectedIndex = 0; // Switch to HomeScreen
+        });
+      }),
+      ProfileSetupFlow(),
+    ];
+
+    return Scaffold(
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ),
+      bottomNavigationBar: _selectedIndex == 1
+          ? null
+          : BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(null), // Placeholder for the middle scan button
+                  label: 'Scan',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
+            ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: _selectedIndex == 1
+          ? null
+          : FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 1; // Navigate to ScanScreen
+                });
+              },
+              child: Icon(Icons.qr_code_scanner, size: 36),
+            ),
     );
   }
 }
