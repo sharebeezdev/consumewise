@@ -50,7 +50,13 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Product Analysis')),
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+          backgroundColor: Colors.blue,
+          title: Text(
+            'Product Analysis',
+            style: TextStyle(color: Colors.white),
+          )),
       body: errorMessage != null
           ? _buildErrorMessage()
           : productData != null
@@ -97,6 +103,7 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
   // Product Information Section
   Widget _buildProductInfoCard() {
     return Card(
+      color: Colors.white,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -122,6 +129,7 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
   Widget _buildInsightsCard() {
     final summary = productData['summary'];
     return Card(
+      color: Colors.white,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(

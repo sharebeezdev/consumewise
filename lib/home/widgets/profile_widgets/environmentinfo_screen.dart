@@ -27,7 +27,13 @@ class _EnvironmentInfoScreenState extends State<EnvironmentInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Environmental Preferences')),
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+          backgroundColor: Colors.blue,
+          title: Text(
+            'Environmental Preferences',
+            style: TextStyle(color: Colors.white),
+          )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(

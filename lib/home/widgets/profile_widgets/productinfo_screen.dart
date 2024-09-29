@@ -39,7 +39,13 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Product and Lifestyle Preferences')),
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+          backgroundColor: Colors.blue,
+          title: Text(
+            'Product and Lifestyle Preferences',
+            style: TextStyle(color: Colors.white),
+          )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

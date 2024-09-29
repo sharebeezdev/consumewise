@@ -109,6 +109,7 @@ class _FeaturedProductSectionState extends State<FeaturedProductSection> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Card(
+                color: Colors.white,
                 surfaceTintColor: Colors.white, // Material 3 Card background
                 elevation: 1, // Material You Card elevation
                 shape: RoundedRectangleBorder(

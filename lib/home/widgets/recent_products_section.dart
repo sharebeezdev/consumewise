@@ -30,6 +30,7 @@ class RecentProductsSection extends StatelessWidget {
   Widget _buildProductItem(
       BuildContext context, String title, String subtitle, String imageUrl) {
     return Card(
+      color: Colors.white,
       elevation: 2, // Material You elevation
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),

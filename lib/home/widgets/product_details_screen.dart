@@ -41,7 +41,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Product Details')),
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+          backgroundColor: Colors.blue,
+          title: Text(
+            'Product Details',
+            style: TextStyle(color: Colors.white), // Setting the text color to white
+          )),
       body: errorMessage != null
           ? _buildErrorMessage()
           : productData != null
@@ -107,6 +113,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   // Product Information Section
   Widget _buildProductInfoCard() {
     return Card(
+      color: Colors.white,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -133,6 +140,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   Widget _buildInsightsCard() {
     final summary = productData['summary'];
     return Card(
+      color: Colors.white,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(

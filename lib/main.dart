@@ -14,12 +14,17 @@ class ConsumeWiseApp extends StatelessWidget {
     return MaterialApp(
       title: 'ConsumeWise',
       theme: ThemeData(
-        useMaterial3: true, // Enable Material You (Material 3)
-        colorSchemeSeed: Colors.blue, // Use a seed color for dynamic theming
-        brightness:
-            Brightness.light, // You can also support dark mode dynamically
-        textTheme: GoogleFonts
-            .interTextTheme(), // Optional: Set custom fonts using Google Fonts
+        primarySwatch: Colors.blue,  // Primary color
+        brightness: Brightness.light, // Light theme
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(fontSize: 18.0, color: Colors.black),
+          headlineLarge: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white, backgroundColor: Colors.blue, // Elevated button color
+          ),
+        ),
       ),
       home: BottomNav(),
       debugShowCheckedModeBanner: false,

@@ -36,12 +36,17 @@ class _ProfileSetupFlowState extends State<ProfileSetupFlow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: Text('Profile Setup'),
+        backgroundColor: Colors.blue,
+        title: Text(
+        'Profile Setup',
+        style: TextStyle(color: Colors.white), // Setting the text color to white
+      ),
         actions: [
           if (_profileData.isNotEmpty)
             IconButton(
-              icon: Icon(Icons.edit),
+              icon: Icon(Icons.edit, color: Colors.white,),
               onPressed: () {
                 // Navigate to edit screen
                 Navigator.push(
@@ -69,6 +74,7 @@ class _ProfileSetupFlowState extends State<ProfileSetupFlow> {
         children: [
           // Modern profile card
           Card(
+            color: Colors.white,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             elevation: 6,

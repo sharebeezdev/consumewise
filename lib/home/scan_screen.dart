@@ -116,7 +116,11 @@ class _ScanScreenState extends State<ScanScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Scan Product')),
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+          title: Text('Scan Product',
+              style: TextStyle(color: Colors.white))
+      ),
       body: Stack(
         children: [
           // Camera Preview
@@ -127,8 +131,11 @@ class _ScanScreenState extends State<ScanScreen> {
       floatingActionButton: FloatingActionButton.extended(
         heroTag: "scanButton", // Assign a unique heroTag
         onPressed: _captureAndAnalyzeImage,
-        icon: Icon(Icons.camera_alt),
-        label: Text('Scan & Analyze'),
+        icon: Icon(Icons.camera_alt, color: Colors.white),
+        label: Text(
+          'Scan & Analyze',
+          style: TextStyle(color: Colors.white), // Setting the text color to white
+        ),
         backgroundColor: Colors.blue,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
