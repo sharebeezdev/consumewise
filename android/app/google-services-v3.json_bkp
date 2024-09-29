@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "173479205689",
+    "project_id": "sharebeez-v3",
+    "storage_bucket": "sharebeez-v3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173479205689:android:daf49aa60e98c809dfe6e8",
+        "android_client_info": {
+          "package_name": "com.example.sharebeez_v3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173479205689-3pld8rp03lv4mmhtti6vdms6uaeniuh5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG5iLya4bUS_T1LZ_bl0qV5p7RQxZA1e8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173479205689-3pld8rp03lv4mmhtti6vdms6uaeniuh5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "173479205689-o2l4v11tack9886q96dkainka9e79s4o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sharebeezV3"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

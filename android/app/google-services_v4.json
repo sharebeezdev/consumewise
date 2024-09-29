@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "483945707705",
+    "project_id": "remove-test-6d7a8",
+    "storage_bucket": "remove-test-6d7a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483945707705:android:dadaa40cbbcd1eb9ffc368",
+        "android_client_info": {
+          "package_name": "com.example.sharebeez_v3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "483945707705-4ir97ch1ji6ra6nhr4d8lufsueg855k8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_bnXkOGhWAOi5fVil9T6NGm2pztTadDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "483945707705-4ir97ch1ji6ra6nhr4d8lufsueg855k8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "483945707705-tvltoa3jcovlc2cjfhn5eljbce7vprsm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sharebeezV3"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

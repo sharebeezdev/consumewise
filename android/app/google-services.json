@@ -1,0 +1,138 @@
+{
+  "project_info": {
+    "project_number": "564344682922",
+    "project_id": "affirm-technologies-sharebeez",
+    "storage_bucket": "affirm-technologies-sharebeez.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564344682922:android:698c7dcf7d29a3e8d613d3",
+        "android_client_info": {
+          "package_name": "com.affirmtechnologies.sharebeez"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564344682922-5n7phkhfncl4mvi7etjd7kel2dhl0i12.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.affirmtechnologies.sharebeez",
+            "certificate_hash": "6210878eaaf7a635e692cea4bf698f4db9e3aa35"
+          }
+        },
+        {
+          "client_id": "564344682922-7bdfkkr738l5a255ac8cpkkniicfs7qm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.affirmtechnologies.sharebeez",
+            "certificate_hash": "d44ece93bbbdac2531a18e6d3bd58299841c06c2"
+          }
+        },
+        {
+          "client_id": "564344682922-807fimnbba7vaqef3a0t5al1t3c6ac9i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.affirmtechnologies.sharebeez",
+            "certificate_hash": "71636af2726129db7625d3cab4249ae43b01ec91"
+          }
+        },
+        {
+          "client_id": "564344682922-fe08ogb87qe7s14b3du385evdu80q9qv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.affirmtechnologies.sharebeez",
+            "certificate_hash": "27c3e3aa87b97a011463e6091d0cb36f6f093d55"
+          }
+        },
+        {
+          "client_id": "564344682922-grsgjif899ktb20d6moo6n5qurctl56r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.affirmtechnologies.sharebeez",
+            "certificate_hash": "4000d0025676ed0867345dd3396ab38ea689c5b9"
+          }
+        },
+        {
+          "client_id": "564344682922-q8tujok7pttd6m7mn7lpc05i76ip8eqi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.affirmtechnologies.sharebeez",
+            "certificate_hash": "4e8e82f42ac2f0c06ea77f0d7bf986c6b9d32f2b"
+          }
+        },
+        {
+          "client_id": "564344682922-r05o46f3c4d5abttmq304dv5k9p7iegj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.affirmtechnologies.sharebeez",
+            "certificate_hash": "869c115b403a7bd6b9f0dd25ea80273767651e90"
+          }
+        },
+        {
+          "client_id": "564344682922-pc3eh4puo1ekke7ik0n4fm7idcmo76jb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMukqznkHHlOs9Cd6-1yTFU_8wtXIDSqQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564344682922-c0sn5aj2365d1dpubucqmicq2dlac8j9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "564344682922-2g9p9a28ks7eohn6hqs35c70kait5vig.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sharebeezAdmin.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564344682922:android:fbdcb13c395c2ffbd613d3",
+        "android_client_info": {
+          "package_name": "com.example.sharebeez_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564344682922-pc3eh4puo1ekke7ik0n4fm7idcmo76jb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMukqznkHHlOs9Cd6-1yTFU_8wtXIDSqQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564344682922-c0sn5aj2365d1dpubucqmicq2dlac8j9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "564344682922-2g9p9a28ks7eohn6hqs35c70kait5vig.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sharebeezAdmin.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

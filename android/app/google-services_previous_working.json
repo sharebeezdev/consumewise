@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "564344682922",
+    "project_id": "affirm-technologies-sharebeez",
+    "storage_bucket": "affirm-technologies-sharebeez.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564344682922:android:698c7dcf7d29a3e8d613d3",
+        "android_client_info": {
+          "package_name": "com.affirmtechnologies.sharebeez"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564344682922-fe08ogb87qe7s14b3du385evdu80q9qv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.affirmtechnologies.sharebeez",
+            "certificate_hash": "27c3e3aa87b97a011463e6091d0cb36f6f093d55"
+          }
+        },
+        {
+          "client_id": "564344682922-pc3eh4puo1ekke7ik0n4fm7idcmo76jb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMukqznkHHlOs9Cd6-1yTFU_8wtXIDSqQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564344682922-c0sn5aj2365d1dpubucqmicq2dlac8j9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "564344682922-9chk09takd0trn1h0ql5vpv2p6k6pms0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.affirmtechnologies.sharebeez",
+                "app_store_id": "1660433187"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
