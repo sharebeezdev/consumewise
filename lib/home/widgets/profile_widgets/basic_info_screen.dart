@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../datamodel/utils/database_helper.dart';
 import 'healthinfo_screen.dart';
 
@@ -27,7 +28,16 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Basic Information')),
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+          backgroundColor: Colors.blue,
+          iconTheme: IconThemeData(
+            color: Colors.white, // Set the back button color to white
+          ),
+          title: Text(
+            'Basic Information',
+            style: TextStyle(color: Colors.white),
+          )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -55,6 +65,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                     .toList(),
                 onChanged: (value) => setState(() => _gender = value ?? ''),
               ),
+              SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {

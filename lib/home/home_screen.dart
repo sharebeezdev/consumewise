@@ -7,8 +7,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: Text('ConsumeWise'),
+        backgroundColor: Colors.blue,
+        title: Text('ConsumeWise',
+            style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

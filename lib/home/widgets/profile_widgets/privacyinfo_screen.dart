@@ -24,7 +24,16 @@ class _PrivacyInfoScreenState extends State<PrivacyInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Privacy and Data Sharing Preferences')),
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+          backgroundColor: Colors.blue,
+          iconTheme: IconThemeData(
+            color: Colors.white, // Set the back button color to white
+          ),
+          title: Text(
+            'Privacy and Data Sharing Preferences',
+            style: TextStyle(color: Colors.white),
+          )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

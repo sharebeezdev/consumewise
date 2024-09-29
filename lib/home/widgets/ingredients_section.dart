@@ -24,6 +24,7 @@ class IngredientsSection extends StatelessWidget {
   // Build each Ingredient card
   Widget _buildIngredientCard(dynamic ingredient, BuildContext context) {
     return Card(
+      color: Colors.white,
       margin: EdgeInsets.symmetric(vertical: 8.0),
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

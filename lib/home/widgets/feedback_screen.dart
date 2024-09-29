@@ -11,7 +11,16 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Provide Feedback')),
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+          backgroundColor: Colors.blue,
+          iconTheme: IconThemeData(
+            color: Colors.white, // Set the back button color to white
+          ),
+          title: Text(
+            'Provide Feedback',
+            style: TextStyle(color: Colors.white),
+          )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

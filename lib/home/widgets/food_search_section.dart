@@ -16,6 +16,7 @@ class FoodSearchSection extends StatelessWidget {
           // ),
           // SizedBox(height: 10),
           Card(
+            color: Colors.white,
             elevation: 1, // Material 3 card
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

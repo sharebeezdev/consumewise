@@ -30,6 +30,9 @@ class _BottomNavState extends State<BottomNav> {
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
+        backgroundColor: Colors.blue,
+        selectedItemColor: Colors.white, // Color for selected item (icon and label)
+        unselectedItemColor: Colors.white, // Color for unselected item (icon and label)
         onTap: _onItemTapped,
         items: [
           BottomNavigationBarItem(
@@ -51,10 +54,11 @@ class _BottomNavState extends State<BottomNav> {
         padding:
             const EdgeInsets.only(top: 8.0), // Add padding to prevent overflow
         child: FloatingActionButton(
+          backgroundColor: Colors.blue,
           shape: RoundedRectangleBorder(
               borderRadius:
                   BorderRadius.circular(16)), // Adds Material You flair
-          child: Icon(Icons.qr_code_scanner, size: 36), // Larger scan button
+          child: Icon(Icons.qr_code_scanner, size: 36, color: Colors.white,), // Larger scan button
           onPressed: () {
             setState(() {
               _selectedIndex = 1; // Set to Scan Screen
