@@ -30,17 +30,27 @@ class _HealthInfoScreenState extends State<HealthInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Health Information')),
+      appBar: AppBar(
+        title: Text(
+          'Health Information',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: ListView(
+          child: Column(
             children: [
-              // Dietary Preferences Dropdown
               DropdownButtonFormField<String>(
                 value: _dietPreference.isNotEmpty ? _dietPreference : null,
-                decoration: InputDecoration(labelText: 'Dietary Preference'),
+                decoration: InputDecoration(
+                  labelText: 'Dietary Preference',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
                 items: ['Vegetarian', 'Vegan', 'Paleo', 'Keto', 'Gluten-Free']
                     .map((diet) => DropdownMenuItem(
                           value: diet,
@@ -50,46 +60,62 @@ class _HealthInfoScreenState extends State<HealthInfoScreen> {
                 onChanged: (value) =>
                     setState(() => _dietPreference = value ?? ''),
               ),
-              // Allergies Input
+              SizedBox(height: 16),
               TextFormField(
                 initialValue: _allergies,
-                decoration: InputDecoration(labelText: 'Allergies (if any)'),
-                onSaved: (value) {
-                  _allergies = value ?? '';
-                },
+                decoration: InputDecoration(
+                  labelText: 'Allergies (if any)',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onSaved: (value) => _allergies = value ?? '',
               ),
-              // Medical Conditions Input
+              SizedBox(height: 16),
               TextFormField(
                 initialValue: _medicalCondition,
-                decoration:
-                    InputDecoration(labelText: 'Medical Conditions (if any)'),
-                onSaved: (value) {
-                  _medicalCondition = value ?? '';
-                },
+                decoration: InputDecoration(
+                  labelText: 'Medical Conditions (if any)',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onSaved: (value) => _medicalCondition = value ?? '',
               ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    _saveDataAndNavigate(context);
-                  }
-                },
-                child: Text('Next'),
+              Spacer(),
+              // Floating Action Button for 'Next'
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                width: double.infinity,
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      _saveDataAndNavigate(context);
+                    }
+                  },
+                  label: Text('Next'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
               ),
+              SizedBox(height: 16),
             ],
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  // Save data and navigate to next step
+  // Save data and navigate to the next step
   Future<void> _saveDataAndNavigate(BuildContext context) async {
     final updatedProfileData = {
+      ...widget.profileData,
       'dietPreference': _dietPreference,
       'allergies': _allergies,
       'medicalCondition': _medicalCondition,
-      ...widget.profileData,
     };
 
     await DatabaseHelper.updateProfile(updatedProfileData);
@@ -99,7 +125,7 @@ class _HealthInfoScreenState extends State<HealthInfoScreen> {
       MaterialPageRoute(
         builder: (context) => EnvironmentInfoScreen(
           profileData: updatedProfileData,
-          onProfileComplete: widget.onProfileComplete, // Pass the callback
+          onProfileComplete: widget.onProfileComplete,
         ),
       ),
     );

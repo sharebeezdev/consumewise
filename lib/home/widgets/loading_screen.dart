@@ -123,28 +123,56 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Widget _loadingAnimation() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(
-            width: 200,
-            height: 200,
-            color: Colors.grey[300],
+    return Padding(
+      padding:
+          const EdgeInsets.all(16.0), // Add some padding to the overall widget
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Shimmer effect for image placeholder
+          Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius:
+                    BorderRadius.circular(12), // Rounded corners for aesthetics
+              ),
+            ),
           ),
-        ),
-        SizedBox(height: 20),
-        Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Colors.blueAccent,
-          child: Text(
-            'Processing your request...',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          SizedBox(height: 30), // Increased spacing for better separation
+          // Shimmer effect for the text
+          Shimmer.fromColors(
+            baseColor: Colors.white,
+            highlightColor: Colors.blueAccent,
+            child: Column(
+              children: [
+                Text(
+                  'Hold tight, we’re analyzing the image.',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center, // Center-align the text
+                ),
+                SizedBox(height: 10), // Add some spacing between lines
+                Text(
+                  'Gemini is on the job to deliver a detailed analysis.',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Enjoy making healthier choices!',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

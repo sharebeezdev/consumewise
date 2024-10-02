@@ -10,7 +10,14 @@ class ProfileSetupFlow extends StatefulWidget {
 class _ProfileSetupFlowState extends State<ProfileSetupFlow> {
   Map<String, dynamic> _profileData = {};
   String _selectedLanguage = 'English'; // Default language selection
-  List<String> _languages = ['English', 'Spanish', 'French', 'German', 'Hindi'];
+  final List<String> _languages = [
+    'English',
+    'Telugu',
+    'Spanish',
+    'French',
+    'German',
+    'Hindi'
+  ];
 
   @override
   void initState() {
@@ -20,7 +27,6 @@ class _ProfileSetupFlowState extends State<ProfileSetupFlow> {
 
   // Load profile data if it exists
   Future<void> _loadProfile() async {
-    print('Fetching profile from the database...');
     final profile = await DatabaseHelper.fetchProfile();
     if (profile != null) {
       setState(() {
@@ -37,7 +43,7 @@ class _ProfileSetupFlowState extends State<ProfileSetupFlow> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile Setup'),
+        // title: Text('Profile Setup'),
         actions: [
           if (_profileData.isNotEmpty)
             IconButton(
@@ -87,9 +93,9 @@ class _ProfileSetupFlowState extends State<ProfileSetupFlow> {
                       "Gender", _profileData['gender'] ?? 'N/A'),
                   _buildProfileDetailRow(
                       "Diet", _profileData['dietPreference'] ?? 'N/A'),
-                  _buildProfileDetailRow(
+                  _buildMultilineProfileDetailRow(
                       "Allergies", _profileData['allergies'] ?? 'N/A'),
-                  _buildProfileDetailRow("Medical Condition",
+                  _buildMultilineProfileDetailRow("Medical Condition",
                       _profileData['medicalCondition'] ?? 'N/A'),
                   _buildProfileDetailRow(
                     "Environmentally Conscious",
@@ -97,29 +103,26 @@ class _ProfileSetupFlowState extends State<ProfileSetupFlow> {
                         ? 'Yes'
                         : 'No',
                   ),
-                  _buildProfileDetailRow(
-                    "Preferred Language",
-                    _profileData['language'] ?? 'English',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: _buildProfileDetailRow(
+                          "Preferred Language",
+                          _profileData['language'] ?? 'English',
+                        ),
+                      ),
+                      // IconButton(
+                      //   icon: Icon(Icons.edit),
+                      //   onPressed: _showLanguageChangeDialog,
+                      // ),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
           SizedBox(height: 20),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //           builder: (context) => BasicInfoScreen(
-          //               profileData: _profileData,
-          //               onProfileComplete: _loadProfile)),
-          //     );
-          //   },
-          //   child: Text('Edit Profile'),
-          // ),
-          // SizedBox(height: 20),
-          // Button to change preferred language
           ElevatedButton(
             onPressed: () {
               _showLanguageChangeDialog();
@@ -139,7 +142,33 @@ class _ProfileSetupFlowState extends State<ProfileSetupFlow> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
-          Text(value, style: TextStyle(color: Colors.grey[700])),
+          Flexible(
+            child: Text(
+              value,
+              style: TextStyle(color: Colors.grey[700]),
+              overflow: TextOverflow.ellipsis, // Handle long text by ellipsis
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Multiline profile details for longer text fields like Allergies, Medical Conditions
+  Widget _buildMultilineProfileDetailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(color: Colors.grey[700]),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis, // Show ellipsis if too long
+          ),
         ],
       ),
     );

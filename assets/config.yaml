@@ -1,0 +1,12 @@
+# config.yaml
+api:
+  host: https://google-gemini-api-v2-837715105352.us-central1.run.app
+  headers:
+    Content-Type: application/json
+  endpoints:
+    generateKeywordsByProfile: /generateKeywordsByProfile
+    getProfile: /getProfile
+    updateProfile: /updateProfile
+    recommendations: /recommendations
+    insights: /insights
+    analyze: /analyze

@@ -23,89 +23,86 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
   @override
   void initState() {
     super.initState();
-
-    // Debug: Log the passed profileData
-    debugPrint('Passed Profile Data: ${widget.profileData}');
-
-    // Initialize with the values from the profileData or use empty strings
     _productInterests = widget.profileData['productInterests'] ?? '';
     _nutritionalGoal = widget.profileData['nutritionalGoal'] ?? '';
-
-    // Debug: Log the initialized form values
-    debugPrint('Initial Product Interests: $_productInterests');
-    debugPrint('Initial Nutritional Goal: $_nutritionalGoal');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Product and Lifestyle Preferences')),
+      appBar: AppBar(
+        title: Text(
+          'Product and Lifestyle Preferences',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: ListView(
+          child: Column(
             children: [
               // Product Interests
               TextFormField(
                 initialValue: _productInterests,
-                decoration: InputDecoration(labelText: 'Product Interests'),
-                onSaved: (value) {
-                  _productInterests = value ?? '';
-                  debugPrint('Updated Product Interests: $_productInterests');
-                },
+                decoration: InputDecoration(
+                  labelText: 'Product Interests',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onSaved: (value) => _productInterests = value ?? '',
               ),
               SizedBox(height: 16),
               // Nutritional Goal
               TextFormField(
                 initialValue: _nutritionalGoal,
-                decoration: InputDecoration(labelText: 'Nutritional Goal'),
-                onSaved: (value) {
-                  _nutritionalGoal = value ?? '';
-                  debugPrint('Updated Nutritional Goal: $_nutritionalGoal');
-                },
+                decoration: InputDecoration(
+                  labelText: 'Nutritional Goal',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onSaved: (value) => _nutritionalGoal = value ?? '',
+              ),
+              Spacer(),
+              // Floating Action Button for 'Next'
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                width: double.infinity,
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      _saveDataAndNavigate(context);
+                    }
+                  },
+                  label: Text('Next'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
               ),
               SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    _saveDataAndNavigate(context);
-                  }
-                },
-                child: Text('Next'),
-              ),
             ],
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
   Future<void> _saveDataAndNavigate(BuildContext context) async {
-    // Debug: Log form data before updating the profile
-    debugPrint(
-        'Saving Data: Product Interests: $_productInterests, Nutritional Goal: $_nutritionalGoal');
-
-    // Merge the updated data with the existing profileData
     final updatedProfileData = {
-      ...widget.profileData, // Merge the existing data
+      ...widget.profileData,
       'productInterests': _productInterests,
       'nutritionalGoal': _nutritionalGoal,
     };
 
-    // Debug: Log the updated profile data before saving
-    debugPrint('Updated Profile Data to be Saved: $updatedProfileData');
+    await DatabaseHelper.updateProfile(updatedProfileData); // Save to DB
+    widget.onProfileComplete(); // Trigger the profile reload
 
-    // Save updated profile to the database
-    try {
-      await DatabaseHelper.updateProfile(updatedProfileData);
-      debugPrint('Profile updated successfully');
-    } catch (e) {
-      debugPrint('Error updating profile: $e');
-    }
-
-    // Navigate to the next screen and pass the updated profile data
     Navigator.push(
       context,
       MaterialPageRoute(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'home/widgets/bottom_nav.dart';
+import 'home/splash_screen.dart';
 
 void main() {
   runApp(ConsumeWiseApp());
@@ -14,14 +14,12 @@ class ConsumeWiseApp extends StatelessWidget {
     return MaterialApp(
       title: 'ConsumeWise',
       theme: ThemeData(
-        useMaterial3: true, // Enable Material You (Material 3)
-        colorSchemeSeed: Colors.blue, // Use a seed color for dynamic theming
-        brightness:
-            Brightness.light, // You can also support dark mode dynamically
-        textTheme: GoogleFonts
-            .interTextTheme(), // Optional: Set custom fonts using Google Fonts
+        useMaterial3: true,
+        colorSchemeSeed: Colors.lightGreen.shade600,
+        brightness: Brightness.light,
+        textTheme: GoogleFonts.interTextTheme(),
       ),
-      home: BottomNav(),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

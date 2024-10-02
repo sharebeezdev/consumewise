@@ -27,26 +27,55 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Basic Information')),
+      appBar: AppBar(
+        title: Text(
+          'Basic Information',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: ListView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Age Input
               TextFormField(
                 initialValue: _age != 0 ? _age.toString() : '',
-                decoration: InputDecoration(labelText: 'Age'),
+                decoration: InputDecoration(
+                  labelText: 'Age',
+                  labelStyle: TextStyle(fontSize: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
                 keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your age';
+                  }
+                  return null;
+                },
                 onSaved: (value) {
                   _age = int.parse(value ?? '0');
                 },
               ),
+              SizedBox(height: 16),
               // Gender Dropdown
               DropdownButtonFormField<String>(
                 value: _gender.isNotEmpty ? _gender : null,
-                decoration: InputDecoration(labelText: 'Gender'),
+                decoration: InputDecoration(
+                  labelText: 'Gender',
+                  labelStyle: TextStyle(fontSize: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
                 items: ['Male', 'Female', 'Other']
                     .map((gender) => DropdownMenuItem(
                           value: gender,
@@ -55,32 +84,55 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
                     .toList(),
                 onChanged: (value) => setState(() => _gender = value ?? ''),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    _saveDataAndNavigate(context);
-                  }
-                },
-                child: Text('Next'),
+              SizedBox(height: 16),
+              Spacer(), // Push content upwards
+              // Information
+              Text(
+                'This information will help us customize your experience.',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 14,
+                ),
               ),
             ],
           ),
         ),
       ),
+      floatingActionButton: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        width: double.infinity,
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              _formKey.currentState!.save();
+              _saveDataAndNavigate(context);
+            }
+          },
+          label: Text(
+            'Next',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
-  // Save data and navigate to the next step
   Future<void> _saveDataAndNavigate(BuildContext context) async {
     final newProfileData = {
+      ...widget.profileData,
       'age': _age,
       'gender': _gender,
-      ...widget.profileData, // Keep other data intact
     };
 
     await DatabaseHelper.updateProfile(newProfileData);
-    widget.onProfileComplete(); // Trigger the profile reload
+    widget.onProfileComplete();
 
     Navigator.push(
       context,

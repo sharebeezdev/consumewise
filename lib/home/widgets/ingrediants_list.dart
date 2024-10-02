@@ -121,6 +121,8 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
   // Insights Section
   Widget _buildInsightsCard() {
     final summary = productData['summary'];
+    final allergyDetection = productData['ingredientAllergyDetection'];
+
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -129,26 +131,124 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Overall Assessment",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            // Overall Assessment Section
+            Text(
+              "Overall Assessment",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 10),
-            Text(summary['overallAssessment'] ?? '',
-                style: TextStyle(fontSize: 16, color: Colors.grey[800])),
+            Text(
+              summary['overallAssessment'] ?? '',
+              style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+            ),
             SizedBox(height: 10),
-            Text("Key Insights",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+
+            // Key Insights Section
+            Text(
+              "Key Insights",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 10),
             ...List<Widget>.from(
-                summary['keyInsights'].map((insight) => Padding(
+              summary['keyInsights'].map((insight) => Padding(
+                    padding: const EdgeInsets.only(bottom: 5.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.info_outline,
+                            size: 20, color: Colors.blueAccent),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            insight,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
+            SizedBox(height: 10),
+
+            // Recommendation Section
+            Text(
+              "Recommendation",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text(
+              summary['recommendation'] ?? '',
+              style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+            ),
+            SizedBox(height: 20),
+
+            // Ingredient Allergy and Sensitivity Detection (Optional)
+            if (allergyDetection != null &&
+                allergyDetection['hasAllergiesOrSensitivities'] == true) ...[
+              Text(
+                "Allergy and Sensitivity Alerts",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.redAccent),
+              ),
+              SizedBox(height: 10),
+              ...List<Widget>.from(
+                allergyDetection['alerts'].map((alert) => Padding(
                       padding: const EdgeInsets.only(bottom: 5.0),
-                      child: Text("- $insight", style: TextStyle(fontSize: 16)),
-                    ))),
-            SizedBox(height: 10),
-            Text("Recommendation",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
-            Text(summary['recommendation'] ?? '',
-                style: TextStyle(fontSize: 16, color: Colors.grey[800])),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.warning_amber_rounded,
+                              size: 20, color: Colors.red),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              alert,
+                              style: TextStyle(fontSize: 16, color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+              ),
+              SizedBox(height: 20),
+            ],
+
+            // Safe Alternatives (Optional)
+            if (allergyDetection != null &&
+                allergyDetection['safeAlternatives'] != null &&
+                allergyDetection['safeAlternatives'].isNotEmpty) ...[
+              Text(
+                "Safe Alternatives",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green),
+              ),
+              SizedBox(height: 10),
+              ...List<Widget>.from(
+                allergyDetection['safeAlternatives']
+                    .map((alternative) => Padding(
+                          padding: const EdgeInsets.only(bottom: 5.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(Icons.check_circle_outline,
+                                  size: 20, color: Colors.green),
+                              SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  alternative,
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.green),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+              ),
+            ],
           ],
         ),
       ),

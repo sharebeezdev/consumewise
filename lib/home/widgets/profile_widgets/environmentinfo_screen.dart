@@ -19,7 +19,6 @@ class _EnvironmentInfoScreenState extends State<EnvironmentInfoScreen> {
   @override
   void initState() {
     super.initState();
-    // Ensure the value is properly converted to a boolean
     _environmentallyConscious =
         widget.profileData['environmentallyConscious'] == 1;
   }
@@ -27,10 +26,16 @@ class _EnvironmentInfoScreenState extends State<EnvironmentInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Environmental Preferences')),
+      appBar: AppBar(
+        title: Text(
+          'Environmental Preferences',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
+        child: Column(
           children: [
             CheckboxListTile(
               title: Text('Are you environmentally conscious?'),
@@ -40,40 +45,47 @@ class _EnvironmentInfoScreenState extends State<EnvironmentInfoScreen> {
                   _environmentallyConscious = value ?? false;
                 });
               },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                _saveDataAndNavigate(context);
-              },
-              child: Text('Next'),
+            Spacer(),
+            // Floating Action Button for 'Next'
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              width: double.infinity,
+              child: FloatingActionButton.extended(
+                onPressed: () => _saveDataAndNavigate(context),
+                label: Text('Next'),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
             ),
+            SizedBox(height: 16),
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
   Future<void> _saveDataAndNavigate(BuildContext context) async {
-    // Merge updated data with existing profile data
     final updatedProfileData = {
-      ...widget.profileData, // Retain all existing profile data
-      'environmentallyConscious':
-          _environmentallyConscious ? 1 : 0, // Update only the relevant field
+      ...widget.profileData,
+      'environmentallyConscious': _environmentallyConscious ? 1 : 0,
     };
 
-    try {
-      await DatabaseHelper.updateProfile(
-          updatedProfileData); // Update the profile
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ProductInfoScreen(
-              profileData: updatedProfileData,
-              onProfileComplete: widget.onProfileComplete),
+    await DatabaseHelper.updateProfile(updatedProfileData);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductInfoScreen(
+          profileData: updatedProfileData,
+          onProfileComplete: widget.onProfileComplete,
         ),
-      );
-    } catch (e) {
-      debugPrint('Error updating profile: $e');
-    }
+      ),
+    );
   }
 }
