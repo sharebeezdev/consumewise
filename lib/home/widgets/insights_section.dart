@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:convert';
 
+import '../../datamodel/utils/database_helper.dart';
+
 class InsightsSection extends StatefulWidget {
   @override
   _InsightsSectionState createState() => _InsightsSectionState();
@@ -47,17 +49,22 @@ class _InsightsSectionState extends State<InsightsSection> {
 
   Future<void> _fetchInsights() async {
     try {
+      final profileData = await DatabaseHelper.fetchProfile();
+      String personalInfoJson = profileData != null
+          ? jsonEncode(profileData)
+          : jsonEncode({
+              "dietPreference": "",
+              "allergies": "",
+              "medicalCondition": "",
+              "nutritionalGoal": "",
+              "language": "English",
+            });
       final response = await http.post(
         Uri.parse(
             'https://google-gemini-api-v2-837715105352.us-central1.run.app/insights'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          "personalInfo": {
-            "dietPreference": "Keto",
-            "medicalCondition": "Diabetes",
-            "nutritionalGoal": "Weight loss",
-            "environmentallyConscious": true
-          }
+          'personalInfo': jsonDecode(personalInfoJson),
         }),
       );
 

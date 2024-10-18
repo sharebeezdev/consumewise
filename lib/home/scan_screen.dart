@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'widgets/loading_screen.dart';
 
 class ScanScreen extends StatefulWidget {
-  final VoidCallback onBackToHome; // Callback to notify HomeScreen
+  final VoidCallback onBackToHome;
 
   ScanScreen({required this.onBackToHome});
 
@@ -17,6 +17,8 @@ class _ScanScreenState extends State<ScanScreen> {
   CameraController? _cameraController;
   late List<CameraDescription> _cameras;
   CameraDescription? _selectedCamera;
+  bool _isFlashOn = false; // Flash control
+  bool _isFocusLocked = false; // Focus control
 
   @override
   void initState() {
@@ -28,11 +30,16 @@ class _ScanScreenState extends State<ScanScreen> {
     _cameras = await availableCameras();
     if (_cameras.isNotEmpty) {
       _selectedCamera = _cameras.first;
-      _cameraController =
-          CameraController(_selectedCamera!, ResolutionPreset.medium);
+      _cameraController = CameraController(
+        _selectedCamera!,
+        ResolutionPreset
+            .max, // Maximize the resolution for higher image quality
+        imageFormatGroup: ImageFormatGroup.jpeg, // Ensure high-quality image
+      );
 
       await _cameraController!.initialize();
       if (!mounted) return;
+
       setState(() {});
     }
   }
@@ -48,21 +55,24 @@ class _ScanScreenState extends State<ScanScreen> {
       return;
     }
 
-    final image = await _cameraController!.takePicture();
-    final File imageFile = File(image.path);
+    try {
+      final image = await _cameraController!.takePicture();
+      final File imageFile = File(image.path);
 
-    // Navigate to LoadingScreen with imageFile and listen for result
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LoadingScreen(imageFile: imageFile),
-      ),
-    );
+      // Navigate to LoadingScreen with imageFile and listen for result
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoadingScreen(imageFile: imageFile),
+        ),
+      );
 
-    // If result is true (data added), notify HomeScreen and go back
-    if (result == true) {
-      widget.onBackToHome();
-      // Navigator.pop(context, true); // Pass true to trigger HomeScreen refresh
+      // If result is true (data added), notify HomeScreen and go back
+      if (result == true) {
+        widget.onBackToHome();
+      }
+    } catch (e) {
+      print("Error capturing image: $e");
     }
   }
 
@@ -84,9 +94,34 @@ class _ScanScreenState extends State<ScanScreen> {
 
       if (result == true) {
         widget.onBackToHome();
-        //Navigator.pop(context, true); // Pass true to trigger HomeScreen refresh
       }
     }
+  }
+
+  Future<void> _toggleFlash() async {
+    if (_cameraController == null) return;
+
+    setState(() {
+      _isFlashOn = !_isFlashOn;
+    });
+
+    await _cameraController!.setFlashMode(
+      _isFlashOn ? FlashMode.torch : FlashMode.off,
+    );
+  }
+
+  void _handleTapFocus(TapDownDetails details, BoxConstraints constraints) {
+    if (_cameraController == null) return;
+
+    final offset = details.localPosition;
+
+    _cameraController!.setFocusMode(FocusMode.auto);
+    _cameraController!.setFocusPoint(
+      Offset(
+        offset.dx / constraints.maxWidth,
+        offset.dy / constraints.maxHeight,
+      ),
+    );
   }
 
   @override
@@ -97,14 +132,22 @@ class _ScanScreenState extends State<ScanScreen> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: CameraPreview(_cameraController!),
-          ),
-          _buildScanOverlay(),
-          _buildCustomTitleBar(),
-        ],
+      body: GestureDetector(
+        onTapDown: (details) {
+          if (!_isFocusLocked) {
+            _handleTapFocus(details, BoxConstraints());
+          }
+        },
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: CameraPreview(_cameraController!),
+            ),
+            _buildScanOverlay(),
+            _buildCustomTitleBar(),
+            _buildFlashControl(),
+          ],
+        ),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 50.0),
@@ -141,7 +184,6 @@ class _ScanScreenState extends State<ScanScreen> {
             GestureDetector(
               onTap: () {
                 widget.onBackToHome();
-                // Navigator.pop(context, false); // No refresh triggered
               },
               child: Icon(Icons.arrow_back_ios, color: Colors.white, size: 28),
             ),
@@ -192,6 +234,21 @@ class _ScanScreenState extends State<ScanScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildFlashControl() {
+    return Positioned(
+      top: 40,
+      right: 16,
+      child: GestureDetector(
+        onTap: _toggleFlash,
+        child: Icon(
+          _isFlashOn ? Icons.flash_on : Icons.flash_off,
+          color: Colors.white,
+          size: 32,
+        ),
+      ),
     );
   }
 }

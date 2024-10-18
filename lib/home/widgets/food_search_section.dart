@@ -113,6 +113,10 @@ class _FoodSearchSectionState extends State<FoodSearchSection> {
     }
   }
 
+  void _clearSearchText() {
+    _searchController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -160,6 +164,13 @@ class _FoodSearchSectionState extends State<FoodSearchSection> {
                     onPressed: () {
                       _searchProducts(context); // Call the search function
                     },
+                  ),
+                  prefixIcon: IconButton(
+                    icon: Icon(
+                      Icons.clear_all,
+                      size: 24,
+                    ),
+                    onPressed: _clearSearchText, // Clear the search text
                   ),
                 ),
                 style: TextStyle(

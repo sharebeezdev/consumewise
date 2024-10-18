@@ -18,6 +18,10 @@ class SearchResultsPage extends StatelessWidget {
     required this.isLoading, // Pass the loading state
   });
 
+  void _clearSearchText() {
+    searchController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +66,13 @@ class SearchResultsPage extends StatelessWidget {
               hintStyle: TextStyle(
                 color: Colors.grey.shade700,
                 fontStyle: FontStyle.italic,
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  Icons.clear_all,
+                  size: 24,
+                ),
+                onPressed: _clearSearchText, // Clear the search text
               ),
               border: InputBorder.none,
               contentPadding:

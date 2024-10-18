@@ -30,7 +30,9 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
       String sanitizedResponse = _extractJson(widget.apiResponse);
       productData = jsonDecode(sanitizedResponse);
       if (productData == null) {
-        errorMessage = 'Failed to load product data.';
+        debugPrint("Failed to load product data.");
+        errorMessage =
+            'Unfortunately some occured while processing your request. Please try again';
       }
     } catch (e, stackTrace) {
       errorMessage = 'Failed to parse the API response.';
